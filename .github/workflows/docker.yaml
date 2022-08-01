@@ -12,7 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        version: []
+        version:
+        - "8.13.0"
 
     steps:
     - name: Checkout
@@ -36,12 +37,19 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
+    - name: Configure
+      id: config
+      run: |-
+        echo "::set-output name=repo-owner::${{ github.repository_owner }}"
+        echo "::set-output name=repo-name::${GITHUB_REPOSITORY#*/docker-}"
+
     - name: Setup - Docker image metadata
       id: meta
       uses: docker/metadata-action@v4
       with:
         images: |-
-          ghcr.io/${{ github.repository }}
+          ${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
+          ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
         tags: |-
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
