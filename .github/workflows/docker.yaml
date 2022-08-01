@@ -11,6 +11,7 @@ jobs:
       packages: write
 
     strategy:
+      fail-fast: false
       matrix:
         version:
         - "8.13.0"
@@ -58,7 +59,7 @@ jobs:
         images: |-
           ${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
           ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
-        flavor:
+        flavor: |-
           latest: ${{ !!matrix.latest }}
         tags: |-
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
