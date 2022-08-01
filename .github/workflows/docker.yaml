@@ -19,7 +19,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup Environment - Setup buildx
+    - name: Configure
+      id: config
+      run: |-
+        echo "::set-output name=repo-owner::${{ github.repository_owner }}"
+        echo "::set-output name=repo-name::${GITHUB_REPOSITORY#*/docker-}"
+
+    - name: Setup - Setup buildx
       uses: docker/setup-buildx-action@v2
 
     - name: Setup - Docker Hub
@@ -36,12 +42,6 @@ jobs:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ github.token }}
-
-    - name: Configure
-      id: config
-      run: |-
-        echo "::set-output name=repo-owner::${{ github.repository_owner }}"
-        echo "::set-output name=repo-name::${GITHUB_REPOSITORY#*/docker-}"
 
     - name: Setup - Docker image metadata
       id: meta
