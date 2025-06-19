@@ -14,9 +14,9 @@ jobs:
       fail-fast: false
       matrix:
         version:
-        - "8.13.0"
+        - "8.17.0"
         include:
-        - version: "8.13.0"
+        - version: "8.17.0"
           latest: true
 
     steps:
