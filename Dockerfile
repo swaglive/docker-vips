@@ -1,10 +1,10 @@
-ARG         base=alpine:3.16
+ARG         base=alpine:3.22
 
 ###
 
-FROM        ${base} as build
+FROM        ${base} AS build
 
-ARG         version=8.13.0
+ARG         version=8.17.0
 ARG         repo=libvips/libvips
 
 RUN         apk add --no-cache --virtual .build-deps \
@@ -55,6 +55,8 @@ RUN         apk add --no-cache --virtual .run-deps \
                 libheif \
                 libjxl \
                 libspng \
+                libwebpmux \
+                libwebpdemux \
                 poppler-glib \
                 fftw \
                 libimagequant \
